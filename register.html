@@ -1,38 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial scale= 1.0">
-        <title>Create Account</title>
-        <style>
-                form{
-                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-                text-align: center;
-                color: yellow;
-                padding: 60px;
-                margin: 0;
-                justify-content: center;
-                background-color: grey;
-                border-radius: 40px;
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-                width: 100%;
-                max-width: 500px;
-                box-sizing: border-box;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Register Here!</h1>
-        <form action="submit" method="post">
-            <label for="firstName">First Name:</label><br>
-            <input type="text" id="name" firstname="firstname" placeholder="Enter your first name"><br><br>
-            <label for="lastName">Last Name:</label><br>
-            <input type="text" id="lastName" lastname="lastname" placeholder="Enter your last name"><br><br>
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" placeholder="Enter your email"><br><br>
-            <label for="password">Password</label><br>
-            <input type="password" id="password" name="password" placeholder="Enter your password"><br><br>
-            <input type="submit" value="Register">
-        </form>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account</title>
+    <style>
+      /* Body Styling */
+      body {
+        background-color: #f0f0f0; /* Light background for contrast */
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center; /* Center form horizontally */
+        align-items: center; /* Center form vertically */
+        height: 100vh; /* Full viewport height */
+      }
+
+      /* Form Container Styling */
+      form {
+        padding: 20px;
+        width: 100%;
+        max-width: 500px; /* Increase the form's width */
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2); /* Widen box shadow */
+        box-sizing: border-box;
+        position: relative;
+        margin: 10px 20px;
+      }
+
+      /* Header Styling */
+      h1 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333; /* Darker text color */
+        text-align: center;
+      }
+
+      /* Input Field Styling */
+      input[type='text'],
+      input[type='email'],
+      input[type='password'] {
+        width: 100%; /* Full width inside form */
+        padding: 12px;
+        margin: 10px 0;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      /* Submit Button Styling */
+      #submit {
+        width: 100%; /* Full width button */
+        padding: 12px;
+        background-color: black; /* Button color */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%)
+      }
+    </style>
+  </head>
+  <body>
+    <form action="submit" method="post">
+      <!-- Header text -->
+      <h1>Register</h1>
+
+      <!-- Input fields -->
+      <input
+        type="text"
+        id="name"
+        name="firstname"
+        placeholder="Enter your first name"
+      /><br />
+      <input
+        type="text"
+        id="lastName"
+        name="lastname"
+        placeholder="Enter your last name"
+      /><br />
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Enter your email"
+      /><br />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Enter your password"
+      /><br />
+
+      <!-- Submit button -->
+      <input type="submit" id="submit" value="Register" />
+    </form>
+  </body>
 </html>
