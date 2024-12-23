@@ -35,6 +35,9 @@
         h1{
             text-align: center;
         }
+        .error{
+            color: red;
+        }
         #submit{
             background-color: black;
             color: white;
@@ -46,11 +49,14 @@
     </style>
 </head>
 <body>
-    <form>
+    <form action="/submit_form" method="POST" onsubmit="return validateForm()">
       <h1>Login</h1>
-      <input type="email" id="email" name="email" placeholder="Enter your email"><br><br>
-      <input type="password" id="password" name="password" placeholder="Enter your password"> 
+      <input type="email" id="email" name="email" placeholder="Enter your email"><br>
+      <span id="emailError" class="error"></span>
+      <input type="password" id="password" name="password" placeholder="Enter your password">
+      <span id="passwordError" class="error"></span>
       <input type="submit" id="submit" value="Log in"/> 
     </form>
+    <script src="./login_validation.js"></script>
 </body>
 </html>
