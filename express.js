@@ -42,6 +42,20 @@ app.use(
   })
 );
 
+// Rendering the landing page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'))
+});
+app.get('/register.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'register.html'))
+});
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'login.html'))
+})
+app.get('/products.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'products.html'))
+})
+
 // Registration route
 app.post('/submit_form', async (req, res) => {
   const { first_name, last_name, email, password, age, phone_number, gender, country } = req.body;
@@ -111,7 +125,7 @@ app.post('/auth', async (req, res) => {
 });
 
 // Products route (protected)
-app.get('/products', (req, res) => {
+app.get('/product', (req, res) => {
     if (!req.session.loggedin) {
       return res.status(401).send('Unauthorized');
     }
@@ -121,8 +135,8 @@ app.get('/products', (req, res) => {
   const limit = parseInt(req.query.limit) || 6;
   const offset = (page - 1) * limit;
 
-  const sqlCount = 'SELECT COUNT(*) AS total FROM products';
-  const sqlProducts = `SELECT * FROM products LIMIT ? OFFSET ?`;
+  const sqlCount = 'SELECT COUNT(*) AS total FROM product';
+  const sqlProducts = `SELECT * FROM product LIMIT ? OFFSET ?`;
 
   // Get total products count
   db.query(sqlCount, (err, countResults) => {

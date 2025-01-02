@@ -145,7 +145,7 @@
     const paginationContainer = document.getElementById('paginationContainer');
     const logoutBtn = document.getElementById('logoutBtn');
 
-    const API_BASE_URL = 'http://localhost:3306'; // Replace with your backend URL
+    const API_BASE_URL = '/product'; // Replace with your backend URL
     const PRODUCTS_PER_PAGE = 6;
     let currentPage = 1;
 
@@ -180,7 +180,7 @@
         const productDiv = document.createElement('div');
         productDiv.className = 'product';
         productDiv.innerHTML = `
-          <img src="${product.image}" alt="${product.name}" />
+          <img src="${product.image_url}" alt="${product.name}" />
           <h3>${product.name}</h3>
           <p>$${product.price}</p>
         `;
