@@ -24,7 +24,7 @@ const db = mysql.createPool({
 
 // Create a session store
 const sessionStore = new MySQLStore({}, db.promise());
-
+app.use('/static', express.static(path.join(__dirname, 'public')));
 // Middlewares
 app.use(express.json());
 app.use(cors());
@@ -44,16 +44,16 @@ app.use(
 
 // Rendering the landing page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'))
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
 });
 app.get('/register.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'register.html'))
+  res.sendFile(path.join(__dirname, 'public', 'register.html'))
 });
 app.get('/login.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login.html'))
+  res.sendFile(path.join(__dirname, 'public', 'login.html'))
 })
 app.get('/products.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'products.html'))
+  res.sendFile(path.join(__dirname, 'public', 'products.html'))
 })
 
 // Registration route
@@ -71,7 +71,8 @@ app.post('/submit_form', async (req, res) => {
         console.error('Error inserting the user:', error);
         res.status(500).send('Server error');
       } else {
-        res.send('Registration successful');
+        // Send a response indicating success
+        res.status(200).json({ message: 'Registration successful, redirecting to login page...' });
       }
     });
   } catch (err) {
@@ -79,13 +80,11 @@ app.post('/submit_form', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-
 // Login route
 app.post('/auth', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Query user from database
     const sql = `SELECT * FROM users WHERE email = ?`;
     db.query(sql, [email], async (err, results) => {
       if (err) {
@@ -101,18 +100,17 @@ app.post('/auth', async (req, res) => {
       const match = await bcrypt.compare(password, user.password_hash);
 
       if (match) {
-        // Set session data
         req.session.loggedin = true;
         req.session.userId = user.user_id;
         req.session.userType = 'user';
 
-        // Save session and respond
         req.session.save((err) => {
           if (err) {
             console.error('Session save error:', err);
             return res.status(500).send('Session error');
           }
-          res.json({ message: 'Login successful', userType: req.session.userType });
+          // Send a response indicating success
+          res.status(200).json({ message: 'Login successful, redirecting to products page...' });
         });
       } else {
         res.status(401).send('Invalid email or password');
@@ -123,7 +121,6 @@ app.post('/auth', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-
 // Products route (protected)
 app.get('/product', (req, res) => {
     if (!req.session.loggedin) {
