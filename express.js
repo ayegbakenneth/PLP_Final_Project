@@ -121,13 +121,11 @@ app.post('/auth', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-// Products route (protected)
 app.get('/product', (req, res) => {
-    if (!req.session.loggedin) {
-      return res.status(401).send('Unauthorized');
-    }
+  if (!req.session.loggedin) {
+    return res.status(401).send('Unauthorized');
+  }
 
-  // Fetch products from database
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 6;
   const offset = (page - 1) * limit;
@@ -159,6 +157,17 @@ app.get('/product', (req, res) => {
     });
   });
 });
+
+// Logout
+app.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+      if (err) {
+          return res.status(500).send('Could not log out');
+      }
+      res.send('Logout successful');
+  });
+});
+
 // Start the server
 const PORT = process.env.SERVER_PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

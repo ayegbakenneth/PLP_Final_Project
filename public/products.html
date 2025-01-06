@@ -6,6 +6,12 @@
   <title>Products</title>
   <style>
     /* General Reset */
+
+    .product img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
     * {
       margin: 0;
       padding: 0;
@@ -180,7 +186,7 @@
         const productDiv = document.createElement('div');
         productDiv.className = 'product';
         productDiv.innerHTML = `
-          <img src="${product.image_url}" alt="${product.name}" />
+          <img src="${product.image.url}" alt="${product.name}" />
           <h3>${product.name}</h3>
           <p>$${product.price}</p>
         `;
@@ -209,7 +215,7 @@
     // Logout the user
     logoutBtn.addEventListener('click', async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/logout`, {
+        const response = await fetch('/logout', {
           method: 'POST',
           credentials: 'include',
         });
@@ -251,22 +257,23 @@
             alert('Failed to fetch products.');
           }
         }
-      
         function displayProducts(products) {
           const productsContainer = document.getElementById('productsContainer');
           productsContainer.innerHTML = ''; // Clear previous products
-      
+        
           products.forEach((product) => {
             const productDiv = document.createElement('div');
             productDiv.className = 'product';
             productDiv.innerHTML = `
+              <img src="${product.image_url}" alt="${product.name}" />
               <h3>${product.name}</h3>
               <p>Price: $${product.price}</p>
-              <img>${product.image_url}</img>
             `;
             productsContainer.appendChild(productDiv);
           });
         }
+      
+        
       
         function setupPagination(totalPages, currentPage) {
           const paginationContainer = document.getElementById('paginationContainer');
