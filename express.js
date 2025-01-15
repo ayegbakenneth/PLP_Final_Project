@@ -131,9 +131,20 @@ app.get('/product', (req, res) => {
   const offset = (page - 1) * limit;
 
   const sqlCount = 'SELECT COUNT(*) AS total FROM product';
-  const sqlProducts = `SELECT * FROM product LIMIT ? OFFSET ?`;
+  const sqlProducts = `
+    SELECT 
+      id, 
+      name, 
+      price, 
+      CASE 
+        WHEN image_url LIKE 'http%' THEN image_url
+        ELSE CONCAT('/static/', image_url)
+      END AS image 
+    FROM product 
+    LIMIT ? OFFSET ?
+  `;
 
-  // Get total products count
+  // Get total product count
   db.query(sqlCount, (err, countResults) => {
     if (err) {
       console.error('Error fetching product count:', err);

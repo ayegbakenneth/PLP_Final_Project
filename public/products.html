@@ -150,76 +150,79 @@
     const productsContainer = document.getElementById('productsContainer');
     const paginationContainer = document.getElementById('paginationContainer');
     const logoutBtn = document.getElementById('logoutBtn');
-
-    const API_BASE_URL = '/product'; // Replace with your backend URL
+  
+    const API_BASE_URL = 'http://localhost:3000'; // Backend base URL
     const PRODUCTS_PER_PAGE = 6;
     let currentPage = 1;
-
+  
     // Fetch products from the backend with pagination
-    async function fetchProducts(page) {
+    async function fetchProducts(page = 1) {
       try {
-        const response = await fetch(`${API_BASE_URL}/products?page=${page}&limit=${PRODUCTS_PER_PAGE}`, {
-          credentials: 'include',
+        const response = await fetch(`${API_BASE_URL}/product?page=${page}&limit=${PRODUCTS_PER_PAGE}`, {
+          credentials: 'include', // Include session cookie for authentication
         });
-
-        if (response.status === 401) {
+  
+        if (response.ok) {
+          const data = await response.json();
+          displayProducts(data.products);
+          setupPagination(data.totalPages, page);
+        } else if (response.status === 401) {
           alert('Unauthorized. Redirecting to login.');
           window.location.href = '/login.html'; // Redirect to login page
-          return;
+        } else {
+          const error = await response.text();
+          alert(error);
         }
-
-        const data = await response.json();
-        if (data.products && data.totalPages) {
-          renderProducts(data.products);
-          renderPagination(data.totalPages);
-        }
-      } catch (error) {
-        console.error('Error fetching products:', error);
+      } catch (err) {
+        console.error('Error fetching products:', err);
         alert('Failed to fetch products.');
       }
     }
-
-    // Render the products to the DOM
-    function renderProducts(products) {
+  
+    // Display products dynamically
+    function displayProducts(products) {
       productsContainer.innerHTML = ''; // Clear previous products
+  
       products.forEach((product) => {
         const productDiv = document.createElement('div');
         productDiv.className = 'product';
+  
+        // Check if the image is an external URL or a local file
+        const imageUrl = product.image.startsWith('http') ? product.image : `${API_BASE_URL}${product.image}`;
+  
         productDiv.innerHTML = `
-          <img src="${product.image.url}" alt="${product.name}" />
+          <img src="${imageUrl}" alt="${product.name}" />
           <h3>${product.name}</h3>
-          <p>$${product.price}</p>
+          <p>Price: $${product.price}</p>
         `;
         productsContainer.appendChild(productDiv);
       });
     }
-
-    // Render pagination buttons
-    function renderPagination(totalPages) {
+  
+    // Set up pagination dynamically
+    function setupPagination(totalPages, currentPage) {
       paginationContainer.innerHTML = ''; // Clear previous pagination
-
+  
       for (let i = 1; i <= totalPages; i++) {
         const button = document.createElement('button');
         button.textContent = i;
-        button.className = i === currentPage ? 'active' : '';
         button.disabled = i === currentPage;
-        button.classList.add(i === currentPage ? 'disabled' : '');
+        button.className = i === currentPage ? 'disabled' : '';
         button.addEventListener('click', () => {
-          currentPage = i;
-          fetchProducts(currentPage);
+          fetchProducts(i);
         });
         paginationContainer.appendChild(button);
       }
     }
-
-    // Logout the user
+  
+    // Logout functionality
     logoutBtn.addEventListener('click', async () => {
       try {
-        const response = await fetch('/logout', {
+        const response = await fetch(`${API_BASE_URL}/logout`, {
           method: 'POST',
           credentials: 'include',
         });
-
+  
         if (response.ok) {
           alert('Logout successful.');
           window.location.href = '/login.html'; // Redirect to login page
@@ -230,66 +233,9 @@
         console.error('Error logging out:', error);
       }
     });
-
-    // Initialize the page by fetching products
+  
+    // Fetch products on page load
     fetchProducts(currentPage);
-
-    
-        async function fetchProducts(page = 1) {
-          try {
-            const response = await fetch(`http://localhost:3000/product?page=${page}`, {
-              credentials: 'include', // Include session cookie for authentication
-            });
-      
-            if (response.ok) {
-              const data = await response.json();
-              displayProducts(data.products);
-              setupPagination(data.totalPages, page);
-            } else if (response.status === 401) {
-              alert('Unauthorized. Redirecting to login.');
-              window.location.href = '/login.html'; // Redirect to login page
-            } else {
-              const error = await response.text();
-              alert(error);
-            }
-          } catch (err) {
-            console.error('Error fetching products:', err);
-            alert('Failed to fetch products.');
-          }
-        }
-        function displayProducts(products) {
-          const productsContainer = document.getElementById('productsContainer');
-          productsContainer.innerHTML = ''; // Clear previous products
-        
-          products.forEach((product) => {
-            const productDiv = document.createElement('div');
-            productDiv.className = 'product';
-            productDiv.innerHTML = `
-              <img src="${product.image_url}" alt="${product.name}" />
-              <h3>${product.name}</h3>
-              <p>Price: $${product.price}</p>
-            `;
-            productsContainer.appendChild(productDiv);
-          });
-        }
-      
-        
-      
-        function setupPagination(totalPages, currentPage) {
-          const paginationContainer = document.getElementById('paginationContainer');
-          paginationContainer.innerHTML = ''; // Clear previous pagination
-      
-          for (let i = 1; i <= totalPages; i++) {
-            const button = document.createElement('button');
-            button.textContent = i;
-            button.disabled = i === currentPage;
-            button.addEventListener('click', () => fetchProducts(i));
-            paginationContainer.appendChild(button);
-          }
-        }
-      
-        // Fetch products on page load
-        fetchProducts();
   </script>
 </body>
 </html>
