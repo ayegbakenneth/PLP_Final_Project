@@ -4,119 +4,171 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="./style.css">
     <style>
-      h1 {
-        margin-top: 0;
-        margin-bottom: 20px;
-        font-size: 24px;
-        font-weight: bold;
-        color: #333; /* Darker text color */
-        text-align: center;
-      }    
-      form{
-        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
-        box-sizing: border-box;
-        border-radius: 8px;
-        max-width: 400px;
-        width: 100%;
-        padding: 50px;
-        position: relative;
-        margin: 10px 20px;
-        background-color: white;
-      }
-      body{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #f0f0f0;
-        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-      .width{
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      }
-      /* Submit Button Styling */
-      #submit{
-        width: 100%; /* Full width button */
-        padding: 12px;
-        background-color: black; /* Button color */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        margin-top: 20px;
-       }
-      .error{
-        color: red;
-       }
+        body {
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-gap: 20px;
+            width: 100%;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .terms {
+            display: flex;
+            align-items: center;
+        }
+
+        button, input[type="submit"], input[type="reset"] {
+            width: 100%;
+            padding: 10px;
+            background-color: black;
+            margin-bottom: 10px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
-
-    <form id="registerForm" action="/submit_form" method="POST" onsubmit="return validateForm()">
-      <h1>Register</h1>
-        <label for="first_name">First Name:</label><br>
-        <input type="text" id="first_name" class="width" name="first_name"><br>
-        <span id="firstNameError" class="error"></span><br><br>
-    
-        <label for="last_name">Last Name:</label><br>
-        <input type="text" id="last_name" class="width" name="last_name"><br>
-        <span id="lastNameError" class="error"></span><br><br>
-    
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" class="width" name="email"><br>
-        <span id="emailError" class="error"></span><br><br>
-    
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" class="width" name="password"><br>
-        <span id="passwordError" class="error"></span><br><br>
-    
-        <label for="confirm_password">Confirm Password:</label><br>
-        <input type="password" id="confirm_password" class="width" name="confirm_password"><br>
-        <span id="confirmPasswordError" class="error"></span><br><br>
-    
-        <label for="age">Age:</label><br>
-        <input type="number" id="age" class="width" name="age"><br>
-        <span id="ageError" class="error"></span><br><br>
-    
-        <label for="phone_number">Phone Number:</label><br>
-        <input type="tel" id="phone_number" class="width" name="phone_number"><br><br>
-    
-        <input type="radio" id="male" name="gender" value="Male">
-        <label for="male">Male</label>
-        <input type="radio" id="female" name="gender" value="Female">
-        <label for="female">Female</label><br>
-        <span id="genderError" class="error"></span><br><br>
-    
-        <label for="country">Country:</label><br>
-        <select id="country" name="country">
-            <option value="">Select</option>
-            <option value="Nigeria">Nigeria</option>
-            <option value="South Africa">South Africa</option>
-            <option value="Kenya">Kenya</option>
-            <option value="Tanzania">Tanzania</option>
-            <option value="Ghana">Ghana</option>
-            <option value="Morocco">Morocco</option>
-            <option value="Egypt">Egypt</option>
-        </select><br>
-        <span id="countryError" class="error"></span><br><br>
-    
-        <input type="checkbox" id="terms" name="terms">
-        <label for="terms">I agree to the Terms and Conditions</label><br>
-        <span id="termsError" class="error"></span><br><br>
-    
-        <input type="submit" id="submit" value="Register">
-        <input type="reset" id="reset" value="Reset" onclick="clearErrors()">
-    </form>
+    <div class="container">
+        <form id="registerForm" action="/submit_form" method="POST" onsubmit="return validateForm()">
+            <h1>Register</h1>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" aria-required="true">
+                    <span id="firstNameError" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name" aria-required="true">
+                    <span id="lastNameError" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" aria-required="true">
+                    <span id="emailError" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" aria-required="true">
+                    <span id="passwordError" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password:</label>
+                    <input type="password" id="confirm_password" name="confirm_password" aria-required="true">
+                    <span id="confirmPasswordError" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" aria-required="true">
+                    <span id="ageError" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="tel" id="phone_number" name="phone_number">
+                </div>
+                <div class="form-group">
+                    <label>Gender:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="male" name="gender" value="Male">
+                        <label for="male">Male</label>
+                        <input type="radio" id="female" name="gender" value="Female">
+                        <label for="female">Female</label>
+                    </div>
+                    <span id="genderError" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country:</label>
+                    <select id="country" name="country">
+                        <option value="">Select</option>
+                        <option value="Nigeria">Nigeria</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Kenya">Kenya</option>
+                        <option value="Tanzania">Tanzania</option>
+                        <option value="Ghana">Ghana</option>
+                        <option value="Morocco">Morocco</option>
+                        <option value="Egypt">Egypt</option>
+                    </select>
+                    <span id="countryError" class="error"></span>
+                </div>
+                <div class="form-group terms">
+                    <input type="checkbox" id="terms" name="terms">
+                    <label for="terms">I agree to the Terms and Conditions</label>
+                </div>
+            </div>
+            <input type="submit" value="Register">
+            <input type="reset" value="Reset" onclick="clearErrors()">
+        </form>
+    </div>
     <script src="/static/register_validation.js"></script>
 </body>
 </html>
