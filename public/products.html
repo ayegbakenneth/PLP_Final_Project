@@ -61,18 +61,20 @@
     }
 
     .product {
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 15px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      text-align: center;
+      margin: 10px;
+	    display: flex;
+      flex-direction: column;
+	    align-items: center;
+	    justify-content: center;
+	    text-transform: capitalize;
+	    position: relative;
     }
 
     .product img {
-      max-width: 50%;
-      height: 75%;
-      border-radius: 5px;
+      height: 250px;
+	    width: 250px;
+	    border-radius: 20px;
+	    object-fit: cover;
     }
 
     .product h3 {
@@ -81,8 +83,14 @@
     }
 
     .product p {
-      font-size: 2rem;
-      color: #666;
+      position: relative;
+	    border-radius: 20px 20px 20px 0;
+	    background-color: #31b472;
+	    color: white;
+	    padding: 15px;
+	    right: 0;
+	    top: 0;
+	    font-weight: 500;
     }
 
     .pagination {

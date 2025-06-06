@@ -4,6 +4,7 @@
   "description": "",
   "main": "express.js",
   "scripts": {
+    "dev": "node express.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

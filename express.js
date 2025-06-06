@@ -1,7 +1,7 @@
-// This file contains the logic for the express server
+// Importation of the required dependencies
 const express = require('express');
-const mysql = require('mysql2');
-const dotenv = require('dotenv');
+const db = require('./db');
+
 const path = require('path');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
@@ -11,16 +11,7 @@ const MySQLStore = require('express-mysql-session')(session);
 
 // Initialize the express app
 const app = express();
-dotenv.config();
 
-// MySQL connection
-const db = mysql.createPool({
-  host: process.env.HOST,
-  user: process.env.USER,
-  database: process.env.DATABASE,
-  password: process.env.PASSWORD,
-  port: process.env.PORT,
-});
 
 // Create a session store
 const sessionStore = new MySQLStore({}, db.promise());
